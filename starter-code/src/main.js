@@ -25,10 +25,14 @@ var cards = [
   { name: 'thor',            img: 'thor.jpg' }
 ];
 
+
+
 $(document).ready(function(){
   var memoryGame = new MemoryGame(cards);
   var html = '';
-  memoryGame.cards.forEach(function (pic) {
+
+  memoryGame.shuffleCards();
+  memoryGame.cards.forEach(function(pic) {
     html += '<div class="card" data-card-name="'+ pic.name +'">';
     html += '  <div class="back" name="'+ pic.img +'"></div>';
     html += '  <div class="front" style="background: url(img/'+ pic.img +') no-repeat"></div>';
@@ -40,6 +44,12 @@ $(document).ready(function(){
 
   // Bind the click event of each element to a function
   $('.back').click(function () {
+   $(this).hide();
+   $(this).siblings().addClass('back');
+   memoryGame.pickedCards.push($(this));
+   if(memoryGame.pickedCards.length === 2){
+     memoryGame.checkIfPair();
+   }
     // TODO: write some code here
   });
 });
